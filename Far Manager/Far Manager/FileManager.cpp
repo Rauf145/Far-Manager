@@ -1,12 +1,12 @@
 #include "FileManager.h"
 
-
-
-FileManager::FileManager()
+FileManager::FileManager(string path)
 {
+	this->path = path;
 }
 
+//void FileManager::showDirectory()
+//{
+//
+//}
 
-FileManager::~FileManager()
-{
-}
