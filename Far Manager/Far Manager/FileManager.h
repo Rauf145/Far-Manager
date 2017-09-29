@@ -10,8 +10,8 @@ class FileManager
 {
 	string path;
 public:
-	FileManager(string path = "C:\\");
-	//void showDirectory();
+	FileManager(string path = "*");
+	void showDirectory();
 	//void findFiles(string mask);
 	//void changeDirectory(string dir);
 	//void remove(string path);

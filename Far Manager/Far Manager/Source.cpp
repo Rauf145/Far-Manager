@@ -1,15 +1,21 @@
 #include "Draw.h"
 #include "FileManager.h"
+#include <iostream>
+#include <string>
+#include <direct.h>
+#include <io.h>
 
+using namespace std;
 void main()
 {
+	FileManager fm;
 	Draw field;
+	field.DrawField();
+	fm.showDirectory();
 	while (true)
 	{
-		field.DrawField();
-		Sleep(1000);
+		field.Action();
 	}
-	//FileManager fm("C:\\Windows\\System32\\");
 	//fm.find("*.txt");
 	//fm.changeDirectory("Debug");
 
@@ -23,7 +29,7 @@ void main()
 	////rmdir(str.c_str());
 
 	//_finddata_t fileinfo;
-	//int handle = _findfirst(str.c_str(), &fileinfo);
+	//int handle = _findfirst("*", &fileinfo);
 	//int find = handle;
 	//int count = 0;
 	//while (find != -1)

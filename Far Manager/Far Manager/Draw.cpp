@@ -44,9 +44,9 @@ enum Color
 void Draw::DrawField()
 {
 	system("cls");
-	Coord(0,0);
+	Coord(0, 0);
 	for (int i = 0; i < 27; i++)
-	{	
+	{
 		for (int j = 0; j < 110; j++)
 		{
 			if (i == 0 || j == 0 || i == 26 || j == 109 || j == 54)
@@ -67,4 +67,21 @@ void Draw::DrawField()
 		}
 		std::cout << std::endl;
 	}
+	Coord(x, y);
+}
+
+void Draw::Action()
+{
+	button = getch();
+	if (button == PART)
+	{
+		button = getch();
+		if (button == UP)
+			if (y > 2)
+				y--;
+		if (button == DOWN)
+			if (y < 25)
+				y++;
+	}
+	Coord(x, y);
 }
