@@ -14,8 +14,7 @@ void FileManager::showDirectory()
 	while (find != -1)
 	{
 		count++;
-		//cout << (fileinfo.attrib & _A_SUBDIR ? "dir " : "file") << '\t';
-		cout << "  " << fileinfo.name << '\n';
+		text.Text(fileinfo.name,(fileinfo.attrib & _A_SUBDIR ? "dir " : "file"), count + 1);
 		find = _findnext(handle, &fileinfo);
 	}
 }

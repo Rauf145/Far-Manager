@@ -2,6 +2,7 @@
 #include <iostream>
 #include <string>
 #include <direct.h>
+#include "Draw.h"
 #include <io.h>
 
 using namespace std;
@@ -9,6 +10,7 @@ using namespace std;
 class FileManager
 {
 	string path;
+	Draw text;
 public:
 	FileManager(string path = "*");
 	void showDirectory();
