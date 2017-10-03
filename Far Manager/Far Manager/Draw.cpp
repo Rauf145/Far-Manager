@@ -16,7 +16,7 @@ enum Positions
 {
 	Name = 1,
 	Size = 15,
-	Type = 30,
+	Type = 31,
 	Attr = 46,
 };
 
@@ -49,8 +49,23 @@ void Draw::DrawField()
 	{
 		for (int j = 0; j < 110; j++)
 		{
-			if (i == 0 || j == 0 || i == 26 || j == 109 || j == 54)
-				std::cout << char(219);
+			Color(DEFAULT, BLUE);
+			if ((i == 0 || i == 26) && (j > 0 && j < 54 || j > 54 && j < 109))
+				std::cout << char(205);
+			else if ((j == 0 || j == 54 || j == 109) && i > 0 && i < 26)
+				std::cout << char(186);
+			else if (i == 0 && j == 0)
+				std::cout << char(201);
+			else if (i == 26 && j == 0)
+				std::cout << char(200);
+			else if (i == 0 && j == 109)
+				std::cout << char(187);
+			else if (i == 0 && j == 54)
+				std::cout << char(203);
+			else if (i == 26 && j == 54)
+				std::cout << char(202);
+			else if (i == 26 && j == 109)
+				std::cout << char(188);
 			else if (i == 1 && (j >= 1 && j < 50))
 			{
 				Color(GREEN, BLUE);
@@ -72,43 +87,46 @@ void Draw::DrawField()
 
 void _Define(string text, string &name, string &type)
 {
-	int counter = 0, j = 0;
-	char temp[20], temp1[20];
+	int counter = 0, j = 0, c = 0;
+	char temp[255], temp1[255];
 	for (int i = 0; i < text.length(); i++)
 	{
 		if (text[i] == '.')
 			counter = 1;
 		else if (counter == 0)
-			temp[i] = text[i];
+			temp[c++] = text[i];
 		else
 			temp1[j++] = text[i];
 	}
+	temp[c] = '\0';
+	temp1[j] = '\0';
 	name = temp;
-	//name[name.length()] = '\0';
-	name += '\0';
 	type = temp1;
-	//type[type.length()] = '\0';
-	type += '\0';
 }
 
-void Draw::Text(string text, string attribute, short y)
+void Draw::Text(vector<string> &list, vector<string> &attr)
 {
 	string name, type;
-	if (text[0] != '.')
-		_Define(text, name, type);
-	if (text[0] == '.')
-		name = text, type = "dir";
-	Coord(1, y);
-	Color(GREEN, BLUE);
-	std::cout << name;
-	Coord(Type, y);
-	cout << type;
-	Coord(Attr, y);
-	cout << attribute;
+	for (int i = 0; i < list.size(); i++)
+	{
+		Color(GREEN, BLUE);
+		if (list[0][0] != '.')
+			_Define(list[i], name, type);
+		else if (list[0][0] == '.')
+			name = list[i], type = "dir";
+		if (type == "")
+			type = "dir";
+		Coord(1, (short)i + 2);
+		cout << name;
+		Coord(Type, (short)i + 2);
+		cout << type;
+		Coord(Attr, (short)i + 2);
+		cout << attr[i];
+	}
 	Color(DEFAULT, BLACK);
 }
 
-void Draw::Action()
+int Draw::Action(int count)
 {
 	button = getch();
 	if (button == PART)
@@ -118,8 +136,14 @@ void Draw::Action()
 			if (y > 2)
 				y--;
 		if (button == DOWN)
-			if (y < 25)
+			if (y < count + 1)
 				y++;
 	}
 	Coord(x, y);
+	return y - 2;
+}
+
+int Draw::getButton()
+{
+	return button;
 }

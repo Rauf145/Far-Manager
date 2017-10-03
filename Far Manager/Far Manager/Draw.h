@@ -3,6 +3,7 @@
 #include <conio.h>
 #include <string>
 #include <Windows.h>
+#include <vector>
 
 using namespace std;
 
@@ -13,8 +14,9 @@ class Draw
 	HANDLE h = GetStdHandle(STD_OUTPUT_HANDLE);
 public:
 	void DrawField();
-	void Text(string text, string attribute, short y);
-	void Action();
+	void Text(vector<string> &list, vector<string> &attr);
+	int Action(int count = 0);
+	int Draw::getButton();
 	friend class FileManager;
 };
 
