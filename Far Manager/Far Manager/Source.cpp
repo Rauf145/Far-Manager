@@ -7,10 +7,9 @@
 using namespace std;
 void main()
 {
-	vector<string> selected[100];
 	string temp;
 	int buf = 0;
-	FileManager fm("D:\\*");
+	FileManager fm("C:\\*");
 	Draw field;
 	field.DrawField();
 	fm.showDirectory();
@@ -19,16 +18,13 @@ void main()
 		buf = field.Action(fm.getCount());
 		if (field.getButton() == 13)
 		{
-			system("cls");
-			if (buf != 1 || selected->size() == 0)
-			{
-				selected->push_back(fm.getStr(buf));
+			//system("cls");
+			if (fm.getStr(buf) != "..")
 				fm.changeDirectory(buf, "0");
-			}
-			else if (buf == 1 && selected->size() != 0)
+			else if (fm.getStr(buf) == "..")
 			{
-				temp = selected->at(selected->size() - 1);
-				fm.changeDirectory(buf, temp), selected->pop_back();
+				temp = "..";
+				fm.changeDirectory(buf, temp);
 			}
 			fm.showDirectory();
 		}

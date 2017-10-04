@@ -106,28 +106,46 @@ void _Define(string text, string &name, string &type)
 
 void Draw::Text(vector<string> &list, vector<string> &attr)
 {
+	int length;
 	string name, type;
-	for (int i = 0; i < list.size(); i++)
+	Color(DEFAULT, BLUE);
+	for (int i = 2; i < 26; i++)
+		for (int j = 1; j < 53; j++)
+		{
+			Coord((short)j, (short)i);
+			cout << " ";
+		}
+	length = list.size();
+	if (list.size() > 24)
+		length = 24;
+	for (int i = 0; i < length; i++)
 	{
 		Color(GREEN, BLUE);
-		if (list[0][0] != '.')
-			_Define(list[i], name, type);
-		else if (list[0][0] == '.')
+		if (list[i][0] == '.')
 			name = list[i], type = "dir";
+		else
+			_Define(list[i], name, type);
 		if (type == "")
 			type = "dir";
 		Coord(1, (short)i + 2);
-		cout << name;
+		cout << setw(10) << left << name.substr(0, 20);
 		Coord(Type, (short)i + 2);
 		cout << type;
 		Coord(Attr, (short)i + 2);
 		cout << attr[i];
+		type.clear();
 	}
 	Color(DEFAULT, BLACK);
+	this->y = 2;
 }
 
 int Draw::Action(int count)
 {
+	int length;
+	length = count;
+	if (count > 24)
+		length = 24;
+	Coord(x, y);
 	button = getch();
 	if (button == PART)
 	{
@@ -136,7 +154,7 @@ int Draw::Action(int count)
 			if (y > 2)
 				y--;
 		if (button == DOWN)
-			if (y < count + 1)
+			if (y <= length)
 				y++;
 	}
 	Coord(x, y);
