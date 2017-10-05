@@ -7,28 +7,31 @@
 using namespace std;
 void main()
 {
-	vector<string> selected[100];
-	string temp;
+	string temp, mask;
 	int buf = 0;
-	FileManager fm("D:\\*");
+	FileManager fm("C:\\Users\\aidin\\Desktop\\Лаб работы\\*");
 	Draw field;
+	cin >> mask;
+	mask.erase(0, 1);
 	field.DrawField();
 	fm.showDirectory();
 	while (true)
 	{
 		buf = field.Action(fm.getCount());
-		if (field.getButton() == 13)
+		if (field.getButton() == 3)
 		{
-			system("cls");
-			if (buf != 1 || selected->size() == 0)
-			{
-				selected->push_back(fm.getStr(buf));
+			fm.findFiles(mask);
+			fm.CoutFinds();
+		}
+		else if (field.getButton() == 13)
+		{
+			//system("cls");
+			if (fm.getStr(buf) != "..")
 				fm.changeDirectory(buf, "0");
-			}
-			else if (buf == 1 && selected->size() != 0)
+			else if (fm.getStr(buf) == "..")
 			{
-				temp = selected->at(selected->size() - 1);
-				fm.changeDirectory(buf, temp), selected->pop_back();
+				temp = "..";
+				fm.changeDirectory(buf, temp);
 			}
 			fm.showDirectory();
 		}
