@@ -38,7 +38,8 @@ void FileManager::findFiles(string mask)
 			buffer += "\\";
 			buffer += fileinfo.name;
 			openDirs.push_back(counter);
-			this->path.insert(path.length() - 2, buffer), findFiles(mask);
+			this->path.insert(path.length() - 2, buffer);
+			findFiles(mask);
 			counter = openDirs.at(openDirs.size() - 1);
 			openDirs.pop_back();
 			setBack();
@@ -54,7 +55,6 @@ void FileManager::findFiles(string mask)
 		find = _findnext(handle, &fileinfo);
 		counter++;
 	}
-
 }
 
 void FileManager::changeDirectory(int counter, string selected)
@@ -113,9 +113,11 @@ string FileManager::getStr(int index)
 
 void FileManager::CoutFinds()
 {
+	HANDLE h = GetStdHandle(STD_OUTPUT_HANDLE);
 	string temp;
 	for (int j = 0; j < this->findEl.size(); j++)
 	{
+		SetConsoleCursorPosition(h, { 55, short(j) + 1});
 		temp = this->findEl.at(j);
 		cout << temp << endl;
 	}

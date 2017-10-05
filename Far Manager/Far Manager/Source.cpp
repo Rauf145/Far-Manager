@@ -7,9 +7,10 @@
 using namespace std;
 void main()
 {
+	//*.extension *.* name.extension 
 	string temp, mask;
 	int buf = 0;
-	FileManager fm("C:\\Users\\aidin\\Desktop\\Лаб работы\\*");
+	FileManager fm("C:\\Users\\Dzaf_ow51\\Documents\\SFML\\examples\\*");
 	Draw field;
 	cin >> mask;
 	mask.erase(0, 1);
