@@ -7,12 +7,13 @@
 using namespace std;
 void main()
 {
-	string temp, mask;
+	string temp, mask, path = "C:\\Users\\aidin\\Desktop\\ab\\*", name;
 	int buf = 0;
-	FileManager fm("C:\\Users\\aidin\\Desktop\\Лаб работы\\*");
+	FileManager fm("C:\\Users\\aidin\\Desktop\\*");
 	Draw field;
 	cin >> mask;
-	mask.erase(0, 1);
+	if (mask[0] == '*')
+		mask.erase(0, 1);
 	field.DrawField();
 	fm.showDirectory();
 	while (true)
@@ -22,6 +23,26 @@ void main()
 		{
 			fm.findFiles(mask);
 			fm.CoutFinds();
+		}
+		else if (field.getButton() == 5)
+		{
+			cin >> name;
+			fm.Rename(fm.getStr(buf), name);
+			//fm.CoutFinds();
+			//rename("2.jpg", "abcd.jpg")
+		}
+		else if (field.getButton() == 11)
+		{
+			cin >> path;
+			fm.Copy(path, buf);
+			//fm.CoutFinds();
+			//rename("2.jpg", "abcd.jpg")
+		}
+		else if (field.getButton() == 18)
+		{
+			fm.Remove(path);
+			path.erase(path.length() - 2, 2);
+			rmdir(path.c_str());
 		}
 		else if (field.getButton() == 13)
 		{
@@ -36,6 +57,7 @@ void main()
 			fm.showDirectory();
 		}
 	}
+	//"C:\\Users\\aidin\\Desktop\\ab\\*"
 	//fm.find("*.txt");
 	//fm.changeDirectory("Debug");
 

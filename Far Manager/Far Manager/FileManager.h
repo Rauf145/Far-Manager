@@ -5,6 +5,8 @@
 #include "Draw.h"
 #include <vector>
 #include <io.h>
+#include <sstream>
+#include <fstream>
 
 using namespace std;
 
@@ -22,9 +24,10 @@ public:
 	void FileManager::showDirectory();
 	void findFiles(string mask);
 	void changeDirectory(int counter, string selected);
-	//void remove(string path);
-	//void rename(string path, string name);
-	void setBack();
+	void Remove(string path);
+	void Rename(string path, string name);
+	void setBack(string &path);
+	void Copy(string path2, int index);
 	int getCount();
 	string getStr(int index);
 	void CoutFinds();
