@@ -7,15 +7,16 @@
 using namespace std;
 void main()
 {
-	string temp, mask, path = "C:\\Users\\aidin\\Desktop\\ab\\*", name;
+	string temp, mask, path = "C:\\Users\\Dzaf_ow51\\Downloads\\ab\\*", name;
 	int buf = 0;
-	FileManager fm("C:\\Users\\aidin\\Desktop\\*");
+	FileManager fm("C:\\*");
 	Draw field;
 	cin >> mask;
 	if (mask[0] == '*')
 		mask.erase(0, 1);
 	field.DrawField();
 	fm.showDirectory();
+	field.Text(fm.GetList(), fm.GetAttr());
 	while (true)
 	{
 		buf = field.Action(fm.getCount());
@@ -56,6 +57,7 @@ void main()
 			}
 			fm.showDirectory();
 		}
+			field.Text(fm.GetList(), fm.GetAttr());
 	}
 	//"C:\\Users\\aidin\\Desktop\\ab\\*"
 	//fm.find("*.txt");

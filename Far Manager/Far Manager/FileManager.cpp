@@ -18,16 +18,14 @@ void FileManager::showDirectory()
 		list.push_back(fileinfo.name);
 		find = _findnext(handle, &fileinfo);
 	}
-	if (handle != -1)
-		text.Text(list, attr);
-	else
+	if (handle == -1)
+		//text.Text(list, attr);
 		setBack(this->path), showDirectory();
 }
 
 void FileManager::findFiles(string mask)
 {
 	string temp, buffer;
-	int counter = 0;
 	_finddata_t fileinfo;
 	int handle = _findfirst(this->path.c_str(), &fileinfo);
 	int find = handle;
@@ -37,17 +35,10 @@ void FileManager::findFiles(string mask)
 		{
 			buffer += "\\";
 			buffer += fileinfo.name;
-			openDirs.push_back(counter);
 			this->path.insert(path.length() - 2, buffer);
 			findFiles(mask);
-			counter = openDirs.at(openDirs.size() - 1);
-			openDirs.pop_back();
 			setBack(this->path);
-			handle = _findfirst(this->path.c_str(), &fileinfo);
-			find = handle;
 			buffer.clear();
-			for (int i = 0; i < counter; i++)
-				find = _findnext(handle, &fileinfo);
 		}
 		temp = fileinfo.name;
 		if (temp.find(mask) != 4294967295)
@@ -64,7 +55,6 @@ void FileManager::findFiles(string mask)
 			buffer.clear();
 		}
 		find = _findnext(handle, &fileinfo);
-		counter++;
 	}
 }
 
@@ -97,75 +87,32 @@ void FileManager::changeDirectory(int counter, string selected)
 void FileManager::Remove(string path)
 {
 	string temp, buffer;
-	int counter = 0, code = 0;
 	_finddata_t fileinfo;
 	int handle = _findfirst(path.c_str(), &fileinfo);
 	int find = handle;
-	//while (find != -1)
-	//{
-	//	if ((fileinfo.attrib & _A_SUBDIR) && fileinfo.name[0] != '.')
-	//	{
-	//		buffer += "\\";
-	//		buffer += fileinfo.name;
-	//		openDirs.push_back(counter );
-	//		path.insert(path.length() - 2, buffer);
-	//		Remove(path);
-	//		_findclose(handle);
-	//		counter = openDirs.at(openDirs.size() - 1);
-	//		openDirs.pop_back();
-	//		temp = path;
-	//		temp.erase(temp.length() - 2, 2);
-	//		code = rmdir(temp.c_str());
-	//		setBack(path);
-	//		handle = _findfirst(path.c_str(), &fileinfo);
-	//		find = handle;
-	//		buffer.clear();
-	//		for (int i = 0; i < counter; i++)
-	//			find = _findnext(handle, &fileinfo);
-	//		cout << code;
-	//	}
-	//	temp.clear();
-	//	temp += path;
-	//	temp.erase(temp.length() - 1, 1);
-	//	temp += fileinfo.name;
-	//	if (fileinfo.name[0] != '.' && !(fileinfo.attrib & _A_SUBDIR))
-	//		remove(temp.c_str()) != 0;
-	//	find = _findnext(handle, &fileinfo);
-	//	counter++;
-	//	temp.clear();
-	//}
 	while (find != -1)
 	{
-			if ((fileinfo.attrib & _A_SUBDIR) && fileinfo.name[0] != '.')
-			{
-				buffer += "\\";
-				buffer += fileinfo.name;
-				openDirs.push_back(counter );
-				path.insert(path.length() - 2, buffer);
-				Remove(path);
-				counter = openDirs.at(openDirs.size() - 1);
-				openDirs.pop_back();
-				setBack(path);
-				handle = _findfirst(path.c_str(), &fileinfo);
-				find = handle;
-				buffer.clear();
-				for (int i = 0; i < counter; i++)
-					find = _findnext(handle, &fileinfo);
-				cout << code;
-			}
-			temp.clear();
-			temp += path;
-			temp.erase(temp.length() - 1, 1);
-			temp += fileinfo.name;
-			if (fileinfo.name[0] != '.' && !(fileinfo.attrib & _A_SUBDIR))
-				remove(temp.c_str()) != 0;
-			find = _findnext(handle, &fileinfo);
-			counter++;
+		temp += path;
+		temp.erase(temp.length() - 1, 1);
+		temp += fileinfo.name;
+		if (fileinfo.name[0] != '.' && !(fileinfo.attrib & _A_SUBDIR))
+			remove(temp.c_str()) != 0;
+		else if ((fileinfo.attrib & _A_SUBDIR) && fileinfo.name[0] != '.')
+		{
+			buffer += "\\";
+			buffer += fileinfo.name;
+			path.insert(path.length() - 2, buffer);
+			Remove(path);
+			temp = path;
+			temp.erase(temp.length() - 2, 2);
+			rmdir(temp.c_str());
+			setBack(path);
+			buffer.clear();
+		}
+		find = _findnext(handle, &fileinfo);
+		temp.clear();
 	}
-	temp = path;
-	temp.erase(temp.length() - 2, 2);
-	code = rmdir(temp.c_str());
-	cout << code;
+	_findclose(handle);
 }
 
 void FileManager::Rename(string path, string name)
@@ -181,7 +128,7 @@ void FileManager::Rename(string path, string name)
 
 int FileManager::getCount()
 {
-	return this->count;
+	return this->list.size();
 }
 
 void FileManager::setBack(string &path)
@@ -205,31 +152,18 @@ void FileManager::Copy(string path2, int index)
 	string buffer, temp, temp1;
 	temp1 = path2;
 	temp1 += list[index];
-	//if (attr[index] == "dir")
-	//{
-	//	mkdir(temp1.c_str());
-	//	temp += this->path;
-	//	temp += "\\";
-	//	temp += list[index];
-	//	openDirs.push_back(counter);
-	//	path.insert(path.length() - 2, buffer);
-
-	//}
-	//else
-	//{
-		temp += this->path;
-		temp.erase(temp.length() - 1, 1);
-		temp += list[index];
-		ifstream fin(temp, ios::binary);
-		ofstream fout(path2 += list[index], ios::binary);
-		while (!fin.eof())
-		{
-			getline(fin, buffer);
-			fout << buffer << endl;
-		}
-		fin.close();
-		fout.close();
-	//}
+	temp += this->path;
+	temp.erase(temp.length() - 1, 1);
+	temp += list[index];
+	ifstream fin(temp, ios::binary);
+	ofstream fout(path2 += list[index], ios::binary);
+	while (!fin.eof())
+	{
+		getline(fin, buffer);
+		fout << buffer << endl;
+	}
+	fin.close();
+	fout.close();
 	temp1.clear();
 }
 
@@ -250,6 +184,16 @@ void FileManager::CoutFinds()
 		temp = this->findEl.at(j);
 		cout << temp << endl;
 	}
+}
+
+vector<string> FileManager::GetList()
+{
+	return list;
+}
+
+vector<string> FileManager::GetAttr()
+{
+	return attr;
 }
 
 

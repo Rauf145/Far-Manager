@@ -12,16 +12,15 @@ using namespace std;
 
 class FileManager
 {
-	Draw text;
+	//Draw text;
 	vector<string> list;
 	vector<string> attr;
 	vector<string> findEl;
-	vector<int> openDirs;
 	string path;
 	int count = 0;
 public:
 	FileManager(string path = "D:\\*");
-	void FileManager::showDirectory();
+	void showDirectory();
 	void findFiles(string mask);
 	void changeDirectory(int counter, string selected);
 	void Remove(string path);
@@ -31,5 +30,7 @@ public:
 	int getCount();
 	string getStr(int index);
 	void CoutFinds();
+	vector<string> GetList();
+	vector<string> GetAttr();
 };
 

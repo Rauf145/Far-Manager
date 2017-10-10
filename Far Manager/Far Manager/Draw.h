@@ -11,7 +11,7 @@ using namespace std;
 class Draw
 {
 	int button;
-	short x = 1, y = 2;
+	short x = 1, y = 2, EndPlusOne = 0;
 	HANDLE h = GetStdHandle(STD_OUTPUT_HANDLE);
 public:
 	void DrawField();

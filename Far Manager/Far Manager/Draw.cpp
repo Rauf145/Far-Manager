@@ -118,7 +118,7 @@ void Draw::Text(vector<string> &list, vector<string> &attr)
 	length = list.size();
 	if (list.size() > 24)
 		length = 24;
-	for (int i = 0; i < length; i++)
+	for (int i = 0 + this->EndPlusOne; i < length + this->EndPlusOne; i++)
 	{
 		Color(GREEN, BLUE);
 		if (list[i][0] == '.')
@@ -127,21 +127,21 @@ void Draw::Text(vector<string> &list, vector<string> &attr)
 			_Define(list[i], name, type);
 		if (type == "")
 			type = "dir";
-		Coord(1, (short)i + 2);
+		Coord(1, (short)i + 2 - (short)EndPlusOne);
 		cout << setw(10) << left << name.substr(0, 20);
-		Coord(Type, (short)i + 2);
+		Coord(Type, (short)i + 2 - (short)EndPlusOne);
 		cout << type;
-		Coord(Attr, (short)i + 2);
+		Coord(Attr, (short)i + 2 - (short)EndPlusOne);
 		cout << attr[i];
 		type.clear();
 	}
 	Color(DEFAULT, BLACK);
-	this->y = 2;
+	//this->y = 2;
 }
 
 int Draw::Action(int count)
 {
-	int length;
+	int length = 0;
 	length = count;
 	if (count > 24)
 		length = 24;
@@ -151,11 +151,20 @@ int Draw::Action(int count)
 	{
 		button = getch();
 		if (button == UP)
+		{
 			if (y > 2)
 				y--;
+			else if (y == 2 && EndPlusOne > 0)
+				EndPlusOne--;
+		}
 		if (button == DOWN)
+		{
 			if (y <= length)
 				y++;
+			else if (y == 25 && y + EndPlusOne < count + 1)
+				EndPlusOne++;
+		}
+
 	}
 	Coord(x, y);
 	return y - 2;
