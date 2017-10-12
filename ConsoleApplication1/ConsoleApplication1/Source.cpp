@@ -4,17 +4,24 @@ using namespace std;
 
 void main()
 {
-	int count = 1, j = 2, n, size = 3;
+	int Endl = 1, Step = 2, n, count = 1, temp1 = 1, length = 2;
 	cin >> n;
-	for (int i = 0; i < 10; i++)
+	for (int i = 0; i < length; i++)
 	{	
-		if (i == count)
+		if (i == Endl)
 		{
-			cout << endl;
-			count += j;
-			j++;
+			if(count < n)
+				cout << endl;
+			Endl += Step;
+			Step++;
+			temp1++;
+			if (count < n)
+			{
+				count++;
+				length += temp1;
+			}
 		}
-		cout << "*";
+		if (temp1 != n + 1)
+			cout << "*";
 	}
-	cout << endl;
 }

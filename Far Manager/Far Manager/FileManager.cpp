@@ -167,6 +167,27 @@ void FileManager::Copy(string path2, int index)
 	temp1.clear();
 }
 
+void FileManager::Move(string path2, int index)
+{
+	string buffer, temp, temp1;
+	temp1 = path2;
+	temp1 += list[index];
+	temp += this->path;
+	temp.erase(temp.length() - 1, 1);
+	temp += list[index];
+	ifstream fin(temp, ios::binary);
+	ofstream fout(path2 += list[index], ios::binary);
+	while (!fin.eof())
+	{
+		getline(fin, buffer);
+		fout << buffer << endl;
+	}
+	fin.close();
+	fout.close();
+	remove(temp1.c_str());
+	temp1.clear();
+}
+
 string FileManager::getStr(int index)
 {
 	string temp;

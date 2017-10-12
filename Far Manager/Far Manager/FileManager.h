@@ -25,11 +25,12 @@ public:
 	void changeDirectory(int counter, string selected);
 	void Remove(string path);
 	void Rename(string path, string name);
-	void setBack(string &path);
 	void Copy(string path2, int index);
+	void Move(string path2, int index);
+	void setBack(string &path);
 	int getCount();
-	string getStr(int index);
 	void CoutFinds();
+	string getStr(int index);
 	vector<string> GetList();
 	vector<string> GetAttr();
 };

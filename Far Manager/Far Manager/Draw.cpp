@@ -147,6 +147,8 @@ int Draw::Action(int count)
 		length = 24;
 	Coord(x, y);
 	button = getch();
+	//cout << button;
+	//system("pause");
 	if (button == PART)
 	{
 		button = getch();
@@ -167,10 +169,19 @@ int Draw::Action(int count)
 
 	}
 	Coord(x, y);
-	return y - 2;
+	return (y - 2 + EndPlusOne);
 }
 
 int Draw::getButton()
 {
 	return button;
+}
+
+void Draw::setCoord(int EndPlusOne, short x, short y)
+{
+	if (x != 0)
+		this->x = x;
+	if (y != 0)
+		this->y = y;
+	this->EndPlusOne = EndPlusOne;
 }

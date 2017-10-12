@@ -5,11 +5,21 @@
 #include <io.h>
 
 using namespace std;
+void setcursor(bool visible) // set bool visible = 0 - invisible, bool visible = 1 - visible
+{
+	HANDLE console = GetStdHandle(STD_OUTPUT_HANDLE);
+	CONSOLE_CURSOR_INFO lpCursor;
+	GetConsoleCursorInfo(console, &lpCursor);
+	lpCursor.bVisible = visible;
+	SetConsoleCursorInfo(console, &lpCursor);
+}
+
 void main()
 {
-	string temp, mask, path = "C:\\Users\\Dzaf_ow51\\Downloads\\ab\\*", name;
+	//setcursor(false);
+	string temp, mask, path , name;
 	int buf = 0;
-	FileManager fm("C:\\*");
+	FileManager fm("C:\\Users\\Dzaf_ow51\\Downloads\\*");
 	Draw field;
 	cin >> mask;
 	if (mask[0] == '*')
@@ -24,6 +34,8 @@ void main()
 		{
 			fm.findFiles(mask);
 			fm.CoutFinds();
+			//finds.setCoord(0, 55, 2);
+			//finds.Text(fm.GetFindList(), )
 		}
 		else if (field.getButton() == 5)
 		{
@@ -39,6 +51,17 @@ void main()
 			//fm.CoutFinds();
 			//rename("2.jpg", "abcd.jpg")
 		}
+		else if (field.getButton() == 109)
+		{
+			cin.ignore();
+			char* str = new char[100];
+			cin.getline(str, 100);
+			path += str;
+			//getline(cin, path);
+			fm.Move(path, buf);
+			//fm.CoutFinds();
+			//rename("2.jpg", "abcd.jpg")
+		}
 		else if (field.getButton() == 18)
 		{
 			fm.Remove(path);
@@ -47,7 +70,6 @@ void main()
 		}
 		else if (field.getButton() == 13)
 		{
-			//system("cls");
 			if (fm.getStr(buf) != "..")
 				fm.changeDirectory(buf, "0");
 			else if (fm.getStr(buf) == "..")
@@ -55,35 +77,9 @@ void main()
 				temp = "..";
 				fm.changeDirectory(buf, temp);
 			}
+			field.setCoord(0, 1, 2);
 			fm.showDirectory();
 		}
-			field.Text(fm.GetList(), fm.GetAttr());
+		field.Text(fm.GetList(), fm.GetAttr());
 	}
-	//"C:\\Users\\aidin\\Desktop\\ab\\*"
-	//fm.find("*.txt");
-	//fm.changeDirectory("Debug");
-
-	//string str;
-	//getline(cin, str);
-
-	////rename("text.txt", str.c_str());
-	////remove(str.c_str());
-
-	////mkdir(str.c_str());
-	////rmdir(str.c_str());
-
-	//_finddata_t fileinfo;
-	//int handle = _findfirst("*", &fileinfo);
-	//int find = handle;
-	//int count = 0;
-	//while (find != -1)
-	//{
-	//	count++;
-	//	cout << (fileinfo.attrib & _A_SUBDIR ? "dir " : "file") << '\t';
-	//	cout << fileinfo.name << '\n';
-	//	find = _findnext(handle, &fileinfo);
-	//}
-	//cout << "\nInformation: was found " << count;
-	//cout << " file(s) in folder..." << str << "\n\n";
-	//_findclose(handle);
 }

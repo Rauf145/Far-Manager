@@ -19,5 +19,6 @@ public:
 	int Action(int count = 0);
 	int Draw::getButton();
 	friend class FileManager;
+	void setCoord(int EndPlusOne, short x = 0, short y = 0);
 };
 
